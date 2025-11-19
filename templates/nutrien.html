@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block contenido %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="fw-bold">Calculadora de Tasa Metabólica Basal (TMB)</h1>
+        <p class="lead">Calcula tu TMB (calorías mínimas en reposo) y tu Gasto Energético Total (calorías diarias para mantener tu peso).</p>
+    </div>
+    
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+        <p>🚨 <strong>Error en el cálculo:</strong> {{ error }}</p>
+        <p>Por favor, revisa que todos los datos sean válidos y estén completos.</p>
+    </div>
+    {% endif %}
+    
+    <hr>
+    
+    <form method="POST" action="/calculadora" class="row g-3">
+        <div class="col-md-6">
+            <label for="genero" class="form-label">Género:</label>
+            <select id="genero" name="genero" class="form-select" required>
+                <option value="" {% if not genero %}selected{% endif %}>-- Seleccione --</option>
+                <option value="hombre" {% if genero == 'hombre' %}selected{% endif %}>Hombre</option>
+                <option value="mujer" {% if genero == 'mujer' %}selected{% endif %}>Mujer</option>
+            </select>
+        </div>
+        
+        <div class="col-md-6">
+            <label for="peso" class="form-label">Peso Corporal (kg):</label>
+            <input type="number" id="peso" name="peso" class="form-control" step="0.1" placeholder="Ej: 75.5" required value="{{ peso if peso is not none }}">
+        </div>
+        
+        <div class="col-md-6">
+            <label for="altura" class="form-label">Altura (cm):</label>
+            <input type="number" id="altura" name="altura" class="form-control" step="0.1" placeholder="Ej: 170.5" required value="{{ altura if altura is not none }}">
+        </div>
+        
+        <div class="col-md-6">
+            <label for="edad" class="form-label">Edad (años):</label>
+            <input type="number" id="edad" name="edad" class="form-control" min="1" placeholder="Ej: 30" required value="{{ edad if edad is not none }}">
+        </div>
+        
+        <div class="col-12">
+            <label for="actividad" class="form-label">Nivel de Actividad Física:</label>
+            <select id="actividad" name="actividad" class="form-select" required>
+                <option value="" {% if not actividad %}selected{% endif %}>-- Seleccione --</option>
+                <option value="sedentario" {% if actividad == 'sedentario' %}selected{% endif %}>Sedentario (Poco o ningún ejercicio)</option>
+                <option value="ligero" {% if actividad == 'ligero' %}selected{% endif %}>Ligero (1-3 días a la semana)</option>
+                <option value="moderado" {% if actividad == 'moderado' %}selected{% endif %}>Moderado (3-5 días a la semana)</option>
+                <option value="alto" {% if actividad == 'alto' %}selected{% endif %}>Alto (6-7 días a la semana)</option>
+                <option value="muy alto" {% if actividad == 'muy alto' %}selected{% endif %}>Muy Alto (Entrenamiento duro 2 veces/día)</option>
+            </select>
+        </div>
+        
+        <div class="col-12 text-center">
+            <button type="submit" class="btn btn-primary btn-lg">Calcular TMB y GET</button>
+        </div>
+    </form>
+    
+    {% if tmb_resultado %}
+    <div class="resultado mt-5 p-4 border rounded-3 shadow-sm">
+        <h2 class="text-center text-success">🎉 Resultados de tu Gasto Calórico</h2>
+        
+        <p>🔥 <strong>Tasa Metabólica Basal (TMB):</strong></p>
+        <p class="fs-4 text-danger text-center">{{ tmb_resultado }} kcal/día</p>
+        
+        <p>🏃 <strong>Gasto Energético Total (GET):</strong></p>
+        <p class="fs-4 text-info text-center">{{ get_resultado }} kcal/día</p>
+        
+        <p class="text-muted small text-center"><em>*Tu TMB es la energía mínima. Tu GET es tu requerimiento diario para mantener tu peso actual.*</em></p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

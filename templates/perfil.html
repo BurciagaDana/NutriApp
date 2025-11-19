@@ -1,0 +1,32 @@
+{% extends "base.html" %} 
+{% block contenido %}
+
+<div class="container py-5 text-center">
+  <h1 class="fw-bold mb-5">Bienvenido a tu Perfil</h1>
+
+  <div class="row align-items-center justify-content-center">
+
+    <div class="col-md-6">
+      <div class="card mx-auto shadow-lg" style="max-width: 18rem;">
+        <img src="static/perfil.jpg" class="card-img-top rounded-circle border border-2 border-light" alt="Foto de perfil">
+        <div class="card-body">
+          <p class="card-text text-muted">23308060610060@cetis61.edu.mx</p>
+        </div>
+      </div>
+    </div>
+<!--profe esto todavia no esta bien jaja -->
+    <div class="col-md-6">
+      <h2 class="fw-bold mb-4">Perfil</h2>
+      <p class="fs-5 text-start">
+        <strong>Datos Personales:</strong><br>
+        Nombre: Luis<br>
+        Correo: 233080*******************mx<br>
+        Contraseña: ******* 
+      </p>
+      <a href="/perfil" class="btn btn-primary px-4 mt-3">Editar</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+

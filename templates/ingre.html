@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block contenido %}
+<div class="text-center mb-5">
+    <h1 class="fw-bold">A cocinar!</h1>
+</div>
+    <h1>🍽️ Buscador de Recetas</h1>
+
+    
+    <form method="POST">
+        <input type="text" name="query" placeholder="Ej: pollo, pasta, ensalada..." value="{{ query }}">
+        <button type="submit">Buscar</button>
+    </form>
+
+    {% if recetas %}
+        <h2>Resultados para "{{ query }}"</h2>
+        {% for receta in recetas %}
+            <div class="receta">
+                <h3>{{ receta.title }}</h3>
+                <img src="{{ receta.image }}" alt="{{ receta.title }}">
+                {% if receta.readyInMinutes %}
+                    <p>⏱️ Tiempo: {{ receta.readyInMinutes }} minutos</p>
+                {% endif %}
+                <a href="https://spoonacular.com/recipes/{{ receta.title|replace(' ', '-') }}-{{ receta.id }}" target="_blank">Ver receta completa</a>
+            </div>
+        {% endfor %}
+    {% elif query %}
+        <p>No se encontraron resultados para "{{ query }}"</p>
+    {% endif %}
+
+
+{% endblock %}
