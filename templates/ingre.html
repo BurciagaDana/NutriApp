@@ -1,32 +1,48 @@
 {% extends "base.html" %}
 
 {% block contenido %}
-<div class="text-center mb-5">
-    <h1 class="fw-bold">A cocinar!</h1>
-</div>
-    <h1>🍽️ Buscador de Recetas</h1>
 
-    
-    <form method="POST">
-        <input type="text" name="query" placeholder="Ej: pollo, pasta, ensalada..." value="{{ query }}">
-        <button type="submit">Buscar</button>
+<div class="container">
+    <form method="POST" class="d-flex justify-content-center mb-4">
+        <div class="input-group w-50">
+            <input type="text" name="query" class="form-control" placeholder="Ej: pollo, pasta, ensalada..." value="{{ query | default('') }}">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </div>
     </form>
 
     {% if recetas %}
-        <h2>Resultados para "{{ query }}"</h2>
-        {% for receta in recetas %}
-            <div class="receta">
-                <h3>{{ receta.title }}</h3>
-                <img src="{{ receta.image }}" alt="{{ receta.title }}">
-                {% if receta.readyInMinutes %}
-                    <p>⏱️ Tiempo: {{ receta.readyInMinutes }} minutos</p>
-                {% endif %}
-                <a href="https://spoonacular.com/recipes/{{ receta.title|replace(' ', '-') }}-{{ receta.id }}" target="_blank">Ver receta completa</a>
-            </div>
-        {% endfor %}
-    {% elif query %}
-        <p>No se encontraron resultados para "{{ query }}"</p>
-    {% endif %}
+        <h2 class="text-center">Resultados para "{{ query }}"</h2>
 
+        <div class="row">
+            {% for receta in recetas %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+
+                    
+                        {% else %}
+                            <img src="https://via.placeholder.com/300x200?text=Sin+Imagen" class="card-img-top" alt="Sin imagen">
+                        {% endif %}
+
+                        <div class="card-body">
+                            <h5 class="card-title">{{ receta.title | default('Título no disponible') }}</h5>
+
+                            {% if receta.readyInMinutes %}
+                                <p class="card-text">⏱️ Tiempo: {{ receta.readyInMinutes }} minutos</p>
+                            {% endif %}
+
+                            <a href="https://spoonacular.com/recipes/{{ receta.title | default('receta') | replace(' ', '-') }}-{{ receta.id }}"
+                            class="btn btn-link" target="_blank">
+                                Ver receta completa
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    {% elif query %}
+        <p class="text-center text-danger">No se encontraron resultados para "{{ query }}"</p>
+    {% endif %}
+</div>
 
 {% endblock %}

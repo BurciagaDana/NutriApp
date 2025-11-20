@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block contenido %}
+<div class="container mt-4">
+
+    <h2 class="text-center mb-4">Calculadora de Gasto Calórico Diario</h2>
+
+    <form method="POST" class="p-4 shadow rounded bg-light">
+
+        <div class="mb-3">
+            <label>Peso (kg):</label>
+            <input type="number" step="0.1" name="peso" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Altura (cm):</label>
+            <input type="number" step="0.1" name="altura" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Edad:</label>
+            <input type="number" name="edad" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Género:</label>
+            <select name="genero" class="form-control" required>
+                <option value="hombre">Hombre</option>
+                <option value="mujer">Mujer</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label>Nivel de actividad física:</label>
+            <select name="actividad" class="form-control" required>
+                <option value="sedentario">Sedentario</option>
+                <option value="ligero">Ligero (1–3 días/semana)</option>
+                <option value="moderado">Moderado (3–5 días/semana)</option>
+                <option value="alto">Alto (6–7 días/semana)</option>
+                <option value="muy_alto">Muy alto (Entrenamientos intensos)</option>
+            </select>
+        </div>
+
+        <button class="btn btn-primary w-100">Calcular</button>
+    </form>
+
+    {% if error %}
+        <p class="text-danger text-center mt-3">{{ error }}</p>
+    {% endif %}
+
+    {% if tmb %}
+        <div class="mt-4 p-4 bg-white rounded shadow">
+            <h4>Resultados</h4>
+            <p><strong>TMB (Gasto en reposo):</strong> {{ tmb }} kcal/día</p>
+            <p><strong>Gasto total diario:</strong> {{ get }} kcal/día</p>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}
